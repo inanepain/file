@@ -24,38 +24,47 @@ namespace Inane\File;
 use Inane\Stdlib\String\Capitalisation;
 use SplFileInfo;
 
+use function array_map;
 use function array_pop;
 use function base64_encode;
 use function file_exists;
 use function file_get_contents;
 use function floor;
+use function getcwd;
 use function glob;
 use function in_array;
+use function is_null;
 use function md5_file;
 use function pow;
 use function rtrim;
 use function sprintf;
 use function strtolower;
 use function strtoupper;
+use function unlink;
 use function unserialize;
+use const DIRECTORY_SEPARATOR;
+use const false;
+use const null;
 
 /**
  * File metadata
  *
- * @method FileInfo getFileInfo()
+ * @method File getFileInfo()
  *
  * @package Inane\File
- * @version 0.7.2
+ * @version 0.8.0
  */
-class FileInfo extends SplFileInfo {
+class File extends SplFileInfo {
     /**
      * FileInfo
      *
-     * @param string $file_name file
+     * @param null|string $file_name file, default: current dir
      *
      * @return void
      */
-    public function __construct(string $file_name) {
+    public function __construct(?string $file_name = null) {
+        if (is_null($file_name)) $file_name = getcwd();
+
         parent::__construct($file_name);
         $this->setInfoClass(static::class);
     }
@@ -132,24 +141,61 @@ class FileInfo extends SplFileInfo {
     }
 
     /**
-     * Get files in dir
+     * Get files matching filter
+     *
+     * If file: returns siblings
+     * If dir: returns children
+     *
+     * Flags:
+     * GLOB_MARK     - Adds a slash (a backslash on Windows) to each directory returned
+     * GLOB_NOSORT   - Return files as they appear in the directory (no sorting). When this flag is not used, the pathnames are sorted alphabetically
+     * GLOB_NOCHECK  - Return the search pattern if no files matching it were found
+     * GLOB_NOESCAPE - Backslashes do not quote metacharacters
+     * GLOB_BRACE    - Expands {a,b,c} to match 'a', 'b', or 'c'
+     * GLOB_ONLYDIR  - Return only directory entries which match the pattern
+     * GLOB_ERR      - Stop on read errors (like unreadable directories), by default errors are ignored.
      *
      * @param string $filter
-     * @return array|null
+     * @param int $flags glob flags
+     *
+     * @return Inane\File\File[]|null
      */
-    public function getFiles(string $filter = '*'): ?array {
-        return glob(parent::getPathname() . '/' . $filter) ?? null;
+    public function getFiles(string $filter = '*', int $flags = 0): ?array {
+        if ($found = glob($this->getDir() . DIRECTORY_SEPARATOR . $filter, $flags))
+            return array_map(fn($f): File => new File($f), $found);
+
+        return null;
     }
 
     /**
-     * Ges file in dir
+     * Gets directory
      *
-     * @param string $file the file to get
+     * return:
+     * - dir: it's self
+     * - file: parent dir
+     *
+     * @since 0.8.0
+     *
      * @return string|null
      */
-    public function getFile(string $file): ?string {
-        $paths = glob(parent::getPathname() . '/' . $file);
-        return array_pop($paths);
+    public function getDir(): ?string {
+        return $this->isDir() ? $this->getPathname() : $this->getPath();
+    }
+
+    /**
+     * Get file
+     *
+     * returns directory (dir) or sibling (file)
+     *
+     * @param string $file pattern to match
+     *
+     * @return File|null
+     */
+    public function getFile(string $file): ?File {
+        if ($fs = $this->getFiles($file))
+            return array_pop($fs);
+
+        return null;
     }
 
     /**
@@ -167,5 +213,18 @@ class FileInfo extends SplFileInfo {
             $base64 = 'data:image/' . $ext . ';base64,' . base64_encode($data);
         }
         return $base64;
+    }
+
+    /**
+     * Deletes a file
+     *
+     * @since 0.8.0
+     *
+     * @return bool
+     */
+    public function unlink(): bool {
+        if ($this->isValid()  && $this->isWritable()) unlink($this->getPathname());
+
+        return false;
     }
 }
