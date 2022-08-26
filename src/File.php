@@ -44,6 +44,7 @@ use function unlink;
 use function unserialize;
 use const DIRECTORY_SEPARATOR;
 use const false;
+use const FILE_APPEND;
 use const null;
 
 /**
@@ -52,7 +53,7 @@ use const null;
  * @method File getFileInfo()
  *
  * @package Inane\File
- * @version 0.8.0
+ * @version 0.9.0
  */
 class File extends SplFileInfo {
     /**
@@ -183,13 +184,11 @@ class File extends SplFileInfo {
     }
 
     /**
-     * Get file
-     *
-     * returns directory (dir) or sibling (file)
+     * Get child/sibling file matching $file name
      *
      * @param string $file pattern to match
      *
-     * @return File|null
+     * @return File|null the first matching: sibling file OR child file
      */
     public function getFile(string $file): ?File {
         if ($fs = $this->getFiles($file))
@@ -213,6 +212,35 @@ class File extends SplFileInfo {
             $base64 = 'data:image/' . $ext . ';base64,' . base64_encode($data);
         }
         return $base64;
+    }
+
+    /**
+     * gets contents of file
+     *
+     * @since 0.9.0
+     *
+     * @return null|string file content
+     */
+    public function read(): ?string {
+        $content = $this->isFile() ? file_get_contents($this->getPathname()) : null;
+
+        return $content === false ? null : $content;
+    }
+
+    /**
+     * write $contents to file
+     *
+     * @since 0.9.0
+     *
+     * @param string $contents to write to file
+     *
+     * @return bool success
+     */
+    public function write(string $contents, bool $append = false): bool {
+        $flag = $append ? FILE_APPEND : 0;
+        $success = ($this->isFile() && $this->isWritable()) ? file_put_contents($this->getPathname(), $contents, $flag) : false;
+
+        return $success !== false ? true : $success;
     }
 
     /**
