@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Inane: Stdlib
+ * Inane
  *
- * Inane Standard Library
+ * File
  *
  * PHP version 8.1
  *
