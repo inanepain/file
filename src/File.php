@@ -9,6 +9,7 @@
  *
  * @author Philip Michael Raab<peep@inane.co.za>
  * @package Inane\Stdlib
+ * @category filesystem
  *
  * @license UNLICENSE
  * @license https://github.com/inanepain/stdlib/raw/develop/UNLICENSE UNLICENSE
@@ -34,8 +35,10 @@ use function getcwd;
 use function glob;
 use function in_array;
 use function is_null;
+use function is_string;
 use function md5_file;
 use function pow;
+use function rename;
 use function rtrim;
 use function sprintf;
 use function strtolower;
@@ -53,9 +56,11 @@ use const null;
  * @method File getFileInfo()
  *
  * @package Inane\File
- * @version 0.9.0
+ * @version 0.10.0
  */
 class File extends SplFileInfo {
+    private string $fileCache = '';
+
     /**
      * FileInfo
      *
@@ -219,12 +224,15 @@ class File extends SplFileInfo {
      *
      * @since 0.9.0
      *
+     * @param bool $fresh read from file even if a cached version in memory
+     *
      * @return null|string file content
      */
-    public function read(): ?string {
-        $content = $this->isFile() ? file_get_contents($this->getPathname()) : null;
+    public function read(bool $fresh = false): ?string {
+        if (empty($this->fileCache) || $fresh)
+            $this->fileCache = ($this->isFile() && $this->isReadable()) ? file_get_contents($this->getPathname()) : null;
 
-        return $content === false ? null : $content;
+        return $this->fileCache === false ? null : $this->fileCache;
     }
 
     /**
@@ -244,13 +252,43 @@ class File extends SplFileInfo {
     }
 
     /**
+     * prepend $contents to beginning of file
+     *
+     * @since 0.10.0
+     *
+     * @param string $contents to write to file
+     *
+     * @return bool success
+     */
+    public function prepend(string $contents): bool {
+        $contents .= $this->read();
+        return $this->write($contents);
+    }
+
+    /**
+     * Moves a file
+     *
+     * @since 0.10.0
+     *
+     * @return bool success
+     */
+    public function move(File|string $dest): bool {
+        if ($this->isValid()  && $this->isWritable()) {
+            $target = is_string($dest) ? $dest : $dest->getPathname();
+            return rename($this->getPathname(), $target);
+        }
+
+        return false;
+    }
+
+    /**
      * Deletes a file
      *
      * @since 0.8.0
      *
      * @return bool
      */
-    public function unlink(): bool {
+    public function remove(): bool {
         if ($this->isValid()  && $this->isWritable()) unlink($this->getPathname());
 
         return false;
