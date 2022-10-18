@@ -4,7 +4,7 @@
 
 ## History
 
-### 0.2.0-dev @2022 Oct 18
+### 0.2.0 @2022 Oct 18
 
  - rename: `FileInfo` to `File`
  - new   : `File` => `getDir` > returns directory, file's return parent directory
