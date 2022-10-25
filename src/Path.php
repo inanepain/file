@@ -23,8 +23,9 @@ namespace Inane\File;
 
 use function explode;
 use function getcwd;
-use function implode;
+use function is_dir;
 use function is_null;
+use function mkdir;
 use function str_replace;
 use const DIRECTORY_SEPARATOR;
 
@@ -36,17 +37,19 @@ use const DIRECTORY_SEPARATOR;
  * @package Inane\File
  * @version 0.1.0
  */
-class Path {
-    protected array $path = [];
-
+class Path extends File {
     /**
-     * Constructor
+     * FileInfo
      *
-     * @param null|string $path
+     * @param null|string $file_name file, default: current dir
+     *
      * @return void
      */
-    public function __construct(?string $path = null) {
-        $this->setPath($path);
+    public function __construct(?string $file_name = null) {
+        if (is_null($file_name)) $file_name = getcwd();
+
+        parent::__construct($file_name);
+        $this->setInfoClass(static::class);
     }
 
     /**
@@ -62,23 +65,13 @@ class Path {
     }
 
     /**
-     * getPath
+     * Creates this path
      *
-     * @return string
-     */
-    public function getPath(): string {
-        return implode(DIRECTORY_SEPARATOR, $this->path);
-    }
-
-    /**
-     * setPath
+     * @param bool $recursive
      *
-     * @param string $path
-     * @return \Inane\File\Path
+     * @return bool
      */
-    public function setPath(string $path): self {
-        $this->path = static::parsePath($path);
-
-        return $this;
+    public function makePath(bool $recursive = true): bool {
+        return mkdir(directory: $this->getPathname(), recursive: $recursive);
     }
 }

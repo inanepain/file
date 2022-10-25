@@ -37,6 +37,7 @@ use function in_array;
 use function is_null;
 use function is_string;
 use function md5_file;
+use function mkdir;
 use function pow;
 use function rename;
 use function rtrim;
@@ -56,7 +57,7 @@ use const null;
  * @method File getFileInfo()
  *
  * @package Inane\File
- * @version 0.10.1
+ * @version 0.11.0
  */
 class File extends SplFileInfo {
     private ?string $fileCache = null;
@@ -189,6 +190,17 @@ class File extends SplFileInfo {
     }
 
     /**
+     * Get Parent directory
+     *
+     * @since 0.11.0
+     *
+     * @return \Inane\File\Path
+     */
+    public function getParent(): Path {
+        return new Path($this->getPath());
+    }
+
+    /**
      * Get child/sibling file matching $file name
      *
      * @param string $file pattern to match
@@ -244,9 +256,15 @@ class File extends SplFileInfo {
      *
      * @return bool success
      */
-    public function write(string $contents, bool $append = false): bool {
+    public function write(string $contents, bool $append = false, bool $createPath = true): bool {
         $flag = $append ? FILE_APPEND : 0;
-        $success = ($this->isFile() && $this->isWritable()) ? file_put_contents($this->getPathname(), $contents, $flag) : false;
+
+        if (!$this->isValid()) {
+            $parent = $this->getParent();
+            if (!$parent->isValid() && $createPath)
+                $parent->makePath(true);
+        }
+        $success = file_put_contents($this->getPathname(), $contents, $flag);
 
         return $success !== false ? true : $success;
     }

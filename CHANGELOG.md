@@ -6,7 +6,8 @@
 
 ### 0.2.1-dev @2022 Oct xx
 
- - todo
+ - new: `Path::makePath` create directory
+ - new: `File::getParent` gets parent directory
 
 ### 0.2.0 @2022 Oct 18
 
