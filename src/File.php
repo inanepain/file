@@ -56,10 +56,10 @@ use const null;
  * @method File getFileInfo()
  *
  * @package Inane\File
- * @version 0.10.0
+ * @version 0.10.1
  */
 class File extends SplFileInfo {
-    private string $fileCache = '';
+    private ?string $fileCache = null;
 
     /**
      * FileInfo
@@ -229,7 +229,7 @@ class File extends SplFileInfo {
      * @return null|string file content
      */
     public function read(bool $fresh = false): ?string {
-        if (empty($this->fileCache) || $fresh)
+        if (is_null($this->fileCache) || $fresh)
             $this->fileCache = ($this->isFile() && $this->isReadable()) ? file_get_contents($this->getPathname()) : null;
 
         return $this->fileCache === false ? null : $this->fileCache;
