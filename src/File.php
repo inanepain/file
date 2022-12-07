@@ -57,7 +57,7 @@ use const null;
  * @method File getFileInfo()
  *
  * @package Inane\File
- * @version 0.11.0
+ * @version 0.11.1
  */
 class File extends SplFileInfo {
     private ?string $fileCache = null;
@@ -224,7 +224,7 @@ class File extends SplFileInfo {
     public function getBase64Image(): ?string {
         $ext = $this->getExtension(Capitalisation::lowercase);
         $base64 = null;
-        if ($this->isValid() && in_array($ext, ['png', 'jpg'])) {
+        if ($this->isValid() && in_array($ext, ['png', 'jpg', 'gif', 'bmp'])) {
             $data = file_get_contents($this->getPathname());
             $base64 = 'data:image/' . $ext . ';base64,' . base64_encode($data);
         }

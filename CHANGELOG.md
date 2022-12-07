@@ -8,6 +8,7 @@
 
  - new: `Path::makePath` create directory
  - new: `File::getParent` gets parent directory
+ - new: `File::getBase64Image` added support for more image types
 
 ### 0.2.0 @2022 Oct 18
 
