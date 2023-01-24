@@ -6,9 +6,10 @@
 
 ### 0.2.1-dev @2022 Oct xx
 
- - new: `Path::makePath` create directory
- - new: `File::getParent` gets parent directory
- - new: `File::getBase64Image` added support for more image types
+ - new   : `Path::makePath` create directory
+ - new   : `File::getParent` gets parent directory
+ - new   : `File::getBase64Image` added support for more image types
+ - update: `File::getFile` new argument `$onlyIfValid=false` only requires file path to be valid when set to `true`
 
 ### 0.2.0 @2022 Oct 18
 

@@ -36,6 +36,7 @@ use function glob;
 use function in_array;
 use function is_null;
 use function is_string;
+use function ltrim;
 use function md5_file;
 use function mkdir;
 use function pow;
@@ -57,7 +58,7 @@ use const null;
  * @method File getFileInfo()
  *
  * @package Inane\File
- * @version 0.11.1
+ * @version 0.12.0
  */
 class File extends SplFileInfo {
     private ?string $fileCache = null;
@@ -169,7 +170,7 @@ class File extends SplFileInfo {
      */
     public function getFiles(string $filter = '*', int $flags = 0): ?array {
         if ($found = glob($this->getDir() . DIRECTORY_SEPARATOR . $filter, $flags))
-            return array_map(fn($f): File => new File($f), $found);
+            return array_map(fn ($f): File => new File($f), $found);
 
         return null;
     }
@@ -203,13 +204,17 @@ class File extends SplFileInfo {
     /**
      * Get child/sibling file matching $file name
      *
-     * @param string $file pattern to match
+     * @param string $file file name relative to parent
+     * @param bool $onlyIfValid only return file if it exists else null
      *
-     * @return File|null the first matching: sibling file OR child file
+     * @return null|\Inane\File\File file or if it must be a valid file and is not null
      */
-    public function getFile(string $file): ?File {
-        if ($fs = $this->getFiles($file))
-            return array_pop($fs);
+    public function getFile(string $file, bool $onlyIfValid = false): ?File {
+        if ($onlyIfValid) {
+            if ($fs = $this->getFiles($file))
+                return array_pop($fs);
+        } else
+            return new static($this->getDir() . DIRECTORY_SEPARATOR . ltrim($file, DIRECTORY_SEPARATOR));
 
         return null;
     }
