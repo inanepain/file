@@ -9,6 +9,10 @@
  - new   : `Path::makePath` create directory
  - new   : `File::getParent` gets parent directory
  - new   : `File::getBase64Image` added support for more image types
+ - new   : `File::isDir` replaces parent method, handles non-existing paths better (more to my liking)
+ - new   : `File::getChildPath` return a path based on the current path
+ - new   : `File::parsePath` Parse a string path or current working directory
+ - new   : `File::combinePaths` Combines two string paths
  - update: `File::getFile` new argument `$onlyIfValid=false` only requires file path to be valid when set to `true`
 
 ### 0.2.0 @2022 Oct 18

@@ -176,32 +176,6 @@ class File extends SplFileInfo {
     }
 
     /**
-     * Gets directory
-     *
-     * return:
-     * - dir: it's self
-     * - file: parent dir
-     *
-     * @since 0.8.0
-     *
-     * @return string|null
-     */
-    public function getDir(): ?string {
-        return $this->isDir() ? $this->getPathname() : $this->getPath();
-    }
-
-    /**
-     * Get Parent directory
-     *
-     * @since 0.11.0
-     *
-     * @return \Inane\File\Path
-     */
-    public function getParent(): Path {
-        return new Path($this->getPath());
-    }
-
-    /**
      * Get child/sibling file matching $file name
      *
      * @param string $file file name relative to parent
@@ -264,11 +238,8 @@ class File extends SplFileInfo {
     public function write(string $contents, bool $append = false, bool $createPath = true): bool {
         $flag = $append ? FILE_APPEND : 0;
 
-        if (!$this->isValid()) {
-            $parent = $this->getParent();
-            if (!$parent->isValid() && $createPath)
-                $parent->makePath(true);
-        }
+        if (!$this->isValid())
+            $this->getParent()->makePath(recursive: $createPath);
         $success = file_put_contents($this->getPathname(), $contents, $flag);
 
         return $success !== false ? true : $success;
@@ -315,5 +286,112 @@ class File extends SplFileInfo {
         if ($this->isValid()  && $this->isWritable()) unlink($this->getPathname());
 
         return false;
+    }
+
+    /**
+     * Parse a string path or current working directory
+     *
+     *  - sets directory separators to DIRECTORY_SEPARATOR
+     *  - removes trailing DIRECTORY_SEPARATOR
+     *
+     * @param null|string $path
+     *
+     * @return string
+     */
+    public static function parsePath(?string $path = null): string {
+        $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path ?? getcwd());
+
+        return rtrim($path, DIRECTORY_SEPARATOR);
+    }
+
+    /**
+     * Combines two string paths
+     *
+     * @since 0.12.0
+     *
+     * @param string $parent base path
+     * @param string $child path to append
+     *
+     * @return string combined path
+     */
+    public static function combinePaths(string $parent, string $child): string {
+        return static::parsePath($parent) . DIRECTORY_SEPARATOR . ltrim(static::parsePath($child), DIRECTORY_SEPARATOR);
+    }
+
+    /**
+     * Returns of the path is a file or directory
+     *
+     * {@inheritDoc}
+     * @see \SplFileInfo::isDir()
+     */
+    public function isDir(): bool {
+        if (static::class == Path::class) return true;
+        else if ($this->isValid())
+            return parent::isDir();
+        else
+            return $this->getExtension() == '' ? true : false;
+    }
+
+    /**
+     * Gets directory
+     *
+     * return:
+     * - dir: it's self
+     * - file: parent dir
+     *
+     * @since 0.8.0
+     *
+     * @return string|null
+     */
+    public function getDir(): ?string {
+        return $this->isDir() ? $this->getPathname() : $this->getPath();
+    }
+
+    /**
+     * Gets Child Path
+     *
+     * If this is a file a child path is returned in the same directory as the file.
+     *
+     * @since 0.12.0
+     *
+     * @return string|null
+     */
+    public function getChildPath(string $pathName): Path {
+        return new Path(static::combinePaths($this->isDir() ? $this->getPathname() : $this->getPath(), $pathName));
+    }
+
+    /**
+     * Get Parent directory
+     *
+     * @since 0.11.0
+     *
+     * @return \Inane\File\Path
+     */
+    public function getParent(): Path {
+        return new Path($this->getPath());
+    }
+
+    /**
+     * Create missing elements of path.
+     *
+     * All missing segments except last are treated as directories.
+     * The last segment is treated as a dir if no extension is set.
+     *
+     * @since 0.12.0
+     *
+     * @param bool $recursive create all path segments recursively
+     * @param int $permissions filesystem permissions to apply to created path
+     *
+     * @return null|\Inane\File\File|\Inane\File\Path If this is a dir returns itself, if this is a file returns a new File pointing to final dir created, returns null on failure
+     */
+    public function makePath(bool $recursive = true, int $permissions = 0777): ?static {
+        $directory = $this->isDir() ? $this->getPathname() : $this->getPath();
+        if (mkdir(
+            $directory,
+            $permissions,
+            $recursive,
+        )) return $this->isDir() ? $this : new static($directory);
+
+        return null;
     }
 }

@@ -51,27 +51,4 @@ class Path extends File {
         parent::__construct($file_name);
         $this->setInfoClass(static::class);
     }
-
-    /**
-     * parsePath
-     *
-     * @param null|string $path
-     * @return array
-     */
-    protected static function parsePath(?string $path = null): array {
-        if (is_null($path)) $path = getcwd();
-        $path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
-        return explode(DIRECTORY_SEPARATOR, $path);
-    }
-
-    /**
-     * Creates this path
-     *
-     * @param bool $recursive
-     *
-     * @return bool
-     */
-    public function makePath(bool $recursive = true): bool {
-        return mkdir(directory: $this->getPathname(), recursive: $recursive);
-    }
 }
