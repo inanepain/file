@@ -58,7 +58,7 @@ use const null;
  * @method File getFileInfo()
  *
  * @package Inane\File
- * @version 0.12.0
+ * @version 0.12.1
  */
 class File extends SplFileInfo {
     private ?string $fileCache = null;
@@ -73,7 +73,8 @@ class File extends SplFileInfo {
     public function __construct(?string $file_name = null) {
         if (is_null($file_name)) $file_name = getcwd();
 
-        parent::__construct($file_name);
+        // parent::__construct($file_name);
+        parent::__construct(static::parsePath($file_name));
         $this->setInfoClass(static::class);
     }
 
