@@ -58,9 +58,15 @@ use const null;
  * @method File getFileInfo()
  *
  * @package Inane\File
+ *
  * @version 0.12.1
  */
 class File extends SplFileInfo {
+    /**
+     * Cache file contents
+     *
+     * @var null|string
+     */
     private ?string $fileCache = null;
 
     /**
@@ -243,7 +249,14 @@ class File extends SplFileInfo {
             $this->getParent()->makePath(recursive: $createPath);
         $success = file_put_contents($this->getPathname(), $contents, $flag);
 
-        return $success !== false ? true : $success;
+        if ($success !== false) {
+            if (!$append) $this->fileCache = $contents;
+            else $this->fileCache = null;
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

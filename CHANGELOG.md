@@ -4,7 +4,7 @@
 
 ## History
 
-### 0.2.1-dev @2022 Oct xx
+### 0.2.1-dev @2023 Feb 02
 
  - new   : `Path::makePath` create directory
  - new   : `File::getParent` gets parent directory
@@ -14,6 +14,8 @@
  - new   : `File::parsePath` Parse a string path or current working directory
  - new   : `File::combinePaths` Combines two string paths
  - update: `File::getFile` new argument `$onlyIfValid=false` only requires file path to be valid when set to `true`
+ - update: `File` improved caching read file contents
+ - general fixes and clean ups
 
 ### 0.2.0 @2022 Oct 18
 

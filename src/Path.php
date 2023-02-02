@@ -21,13 +21,8 @@ declare(strict_types=1);
 
 namespace Inane\File;
 
-use function explode;
 use function getcwd;
-use function is_dir;
 use function is_null;
-use function mkdir;
-use function str_replace;
-use const DIRECTORY_SEPARATOR;
 
 /**
  * Path
@@ -35,6 +30,7 @@ use const DIRECTORY_SEPARATOR;
  * Path specific utility
  *
  * @package Inane\File
+ *
  * @version 0.1.0
  */
 class Path extends File {
