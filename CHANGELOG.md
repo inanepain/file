@@ -4,7 +4,7 @@
 
 ## History
 
-### 0.2.1-dev @2023 Feb 02
+### 0.2.1 @2023 Feb 02
 
  - new   : `Path::makePath` create directory
  - new   : `File::getParent` gets parent directory
