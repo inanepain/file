@@ -4,6 +4,10 @@
 
 ## History
 
+### 0.2.2-dev @2023 Feb 15
+
+ - update: `File::makePath` check if path exists before trying to create it
+
 ### 0.2.1 @2023 Feb 02
 
  - new   : `Path::makePath` create directory
