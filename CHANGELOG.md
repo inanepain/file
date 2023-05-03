@@ -4,7 +4,7 @@
 
 ## History
 
-### 0.2.2-dev @2023 May 03
+### 0.2.2 @2023 May 03
 
  - update: `File::makePath` check if path exists before trying to create it
  - new   : `FSOInterface` **File System Object Interface** common root interface for fs items useful for typing
