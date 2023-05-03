@@ -4,9 +4,12 @@
 
 ## History
 
-### 0.2.2-dev @2023 Feb 15
+### 0.2.2-dev @2023 May 03
 
  - update: `File::makePath` check if path exists before trying to create it
+ - new   : `FSOInterface` **File System Object Interface** common root interface for fs items useful for typing
+ - new   : `File::append` A convenience method for appending text to a file
+ - new   : `File::readAsArray` Reads entire file into an array
 
 ### 0.2.1 @2023 Feb 02
 

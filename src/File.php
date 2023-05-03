@@ -22,12 +22,12 @@ declare(strict_types=1);
 
 namespace Inane\File;
 
-use Inane\Stdlib\String\Capitalisation;
 use SplFileInfo;
 
 use function array_map;
 use function array_pop;
 use function base64_encode;
+use function file;
 use function file_exists;
 use function file_get_contents;
 use function floor;
@@ -50,7 +50,14 @@ use function unserialize;
 use const DIRECTORY_SEPARATOR;
 use const false;
 use const FILE_APPEND;
+use const FILE_IGNORE_NEW_LINES;
+use const FILE_SKIP_EMPTY_LINES;
 use const null;
+
+use Inane\Stdlib\{
+	String\Capitalisation,
+	Options
+};
 
 /**
  * File metadata
@@ -59,15 +66,17 @@ use const null;
  *
  * @package Inane\File
  *
- * @version 0.12.2
+ * @version 0.14.0
  */
-class File extends SplFileInfo {
+class File extends SplFileInfo implements FSOInterface {
 	/**
-	 * Cache file contents
+	 * File contents cache
+	 * 
+	 * @since 0.14.0
 	 *
-	 * @var null|string
+	 * @var null|\Inane\Stdlib\Options
 	 */
-	private ?string $fileCache = null;
+	private ?Options $contentCache = null;
 
 	/**
 	 * FileInfo
@@ -78,6 +87,11 @@ class File extends SplFileInfo {
 	 */
 	public function __construct(?string $file_name = null) {
 		if (is_null($file_name)) $file_name = getcwd();
+
+		$this->contentCache = new Options([
+			'string' => null,
+			'array' => null,
+		]);
 
 		// parent::__construct($file_name);
 		parent::__construct(static::parsePath($file_name));
@@ -227,10 +241,39 @@ class File extends SplFileInfo {
 	 * @return null|string file content
 	 */
 	public function read(bool $fresh = false): ?string {
-		if (is_null($this->fileCache) || $fresh)
-			$this->fileCache = ($this->isFile() && $this->isReadable()) ? file_get_contents($this->getPathname()) : null;
+		if (is_null($this->contentCache->string) || $fresh)
+			$this->contentCache->string = ($this->isFile() && $this->isReadable()) ? file_get_contents($this->getPathname()) : null;
 
-		return $this->fileCache === false ? null : $this->fileCache;
+		return $this->contentCache->string === false ? null : $this->contentCache->string;
+	}
+
+	/**
+	 * Reads entire file into an array
+	 * 
+	 * You can supply an options array to adjust the following options:
+	 *  * ignoreNewLines [bool=false] - Omit newline at the end of each array element
+	 *  * skipEmptyLines [bool=false] - Skip empty lines
+	 * 
+	 * Note: Each line in the resulting array will include the line ending, unless $options['ignoreNewLines'] is `true`.
+	 * 
+	 * @since 0.14.0
+	 * 
+	 * @param bool $fresh read from file even if a cached version in memory
+	 * @param null|array $options [ 'ignoreNewLines' => false, 'skipEmptyLines' => false ]
+	 * 
+	 * @return null|array Returns the file in an array. Each element of the array corresponds to a line in the file, with the newline still attached. Upon failure, readAsArray() returns `null`.
+	 */
+	public function readAsArray(bool $fresh = false, ?array $options = null): ?array {
+		$options = new Options($options + [ 'ignoreNewLines' => false, 'skipEmptyLines' => false ]);
+
+		$flags = 0;
+		if ($options->ignoreNewLines) $flags |= FILE_IGNORE_NEW_LINES;
+		if ($options->skipEmptyLines) $flags |= FILE_SKIP_EMPTY_LINES;
+
+		if (is_null($this->contentCache->array) || $fresh)
+			$this->contentCache->array = ($this->isFile() && $this->isReadable()) ? file($this->getPathname(), $flags) : null;
+
+		return $this->contentCache->array === false ? null : $this->contentCache->array;
 	}
 
 	/**
@@ -250,13 +293,30 @@ class File extends SplFileInfo {
 		$success = file_put_contents($this->getPathname(), $contents, $flag);
 
 		if ($success !== false) {
-			if (!$append) $this->fileCache = $contents;
-			else $this->fileCache = null;
+			if (!$append) $this->contentCache->string = $contents;
+			else $this->contentCache->string = null;
+
+			$this->contentCache->array = null;
 
 			return true;
 		}
 
 		return false;
+	}
+
+	/**
+	 * append $contents to the end of file
+	 * 
+	 * A convenience method for appending text to a file.
+	 *
+	 * @since 0.14.0
+	 *
+	 * @param string $contents to append to file
+	 *
+	 * @return bool success
+	 */
+	public function append(string $contents): bool {
+		return $this->write($contents, true);
 	}
 
 	/**
