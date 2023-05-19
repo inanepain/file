@@ -4,6 +4,11 @@
 
 ## History
 
+### current: 0.2.3-dev @2023 Xxx xx
+
+ - fix: `File::readAsArray` options array default value
+ - fix: `File::readAsArray` return type
+
 ### 0.2.2 @2023 May 03
 
  - update: `File::makePath` check if path exists before trying to create it

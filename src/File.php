@@ -259,11 +259,11 @@ class File extends SplFileInfo implements FSOInterface {
 	 * @since 0.14.0
 	 * 
 	 * @param bool $fresh read from file even if a cached version in memory
-	 * @param null|array $options [ 'ignoreNewLines' => false, 'skipEmptyLines' => false ]
+	 * @param array $options [ 'ignoreNewLines' => false, 'skipEmptyLines' => false ]
 	 * 
-	 * @return null|array Returns the file in an array. Each element of the array corresponds to a line in the file, with the newline still attached. Upon failure, readAsArray() returns `null`.
+	 * @return null|array|\Inane\Stdlib\Options Returns the file in an array. Each element of the array corresponds to a line in the file, with the newline still attached. Upon failure, readAsArray() returns `null`.
 	 */
-	public function readAsArray(bool $fresh = false, ?array $options = null): ?array {
+	public function readAsArray(bool $fresh = false, array $options = []): null|array|Options {
 		$options = new Options($options + [ 'ignoreNewLines' => false, 'skipEmptyLines' => false ]);
 
 		$flags = 0;
