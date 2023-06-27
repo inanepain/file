@@ -4,6 +4,12 @@
 
 ## History
 
+### 0.2.3 @2023 Jun 27
+
+ - new: `File::getLineCount` returns number of lines for valid files and `null` for invalid files
+ - fix: `File::readAsArray` options array default value
+ - fix: `File::readAsArray` return type
+
 ### 0.2.2 @2023 May 03
 
  - update: `File::makePath` check if path exists before trying to create it
