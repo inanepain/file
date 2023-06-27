@@ -4,7 +4,7 @@
 
 ## History
 
-### current: 0.2.3-dev @2023 Xxx xx
+### 0.2.3 @2023 Jun 27
 
  - new: `File::getLineCount` returns number of lines for valid files and `null` for invalid files
  - fix: `File::readAsArray` options array default value
