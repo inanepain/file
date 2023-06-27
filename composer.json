@@ -3,7 +3,7 @@
     "description": "File utilities for local and remote files.",
     "type": "library",
     "license": "UNLICENSE",
-    "homepage": "http://vaieen.local:3000/inane/file",
+    "homepage": "https://vaieen.local:3000/inane/file",
     "readme": "README.md",
     "authors": [
         {
@@ -14,7 +14,7 @@
     ],
     "support": {
         "email": "peep@inane.co.za",
-        "issues": "http://vaieen.local:3000/iane"
+        "issues": "https://vaieen.local:3000/inane/file/issues"
     },
     "keywords": [
         "inane",

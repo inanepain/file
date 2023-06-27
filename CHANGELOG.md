@@ -6,6 +6,7 @@
 
 ### current: 0.2.3-dev @2023 Xxx xx
 
+ - new: `File::getLineCount` returns number of lines for valid files and `null` for invalid files
  - fix: `File::readAsArray` options array default value
  - fix: `File::readAsArray` return type
 

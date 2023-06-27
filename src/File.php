@@ -27,6 +27,7 @@ use SplFileInfo;
 use function array_map;
 use function array_pop;
 use function base64_encode;
+use function count;
 use function file;
 use function file_exists;
 use function file_get_contents;
@@ -66,7 +67,7 @@ use Inane\Stdlib\{
  *
  * @package Inane\File
  *
- * @version 0.14.0
+ * @version 0.15.0
  */
 class File extends SplFileInfo implements FSOInterface {
 	/**
@@ -123,6 +124,20 @@ class File extends SplFileInfo implements FSOInterface {
 	 */
 	public function getHumanSize($decimals = 2): ?string {
 		return $this->humanSize(parent::getSize(), $decimals);
+	}
+
+	/**
+	 * Return number of lines
+	 * 
+	 * @since 0.15.0
+	 *
+	 * @return int|null line count or `null` if invalid file
+	 */
+	public function getLineCount(): ?int {
+		if ($this->isValid())
+			return count($this->readAsArray(options: ['ignoreNewLines' => true, 'skipEmptyLines' => true]));
+
+		return null;
 	}
 
 	/**
