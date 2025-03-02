@@ -4,6 +4,10 @@
 
 ## History
 
+### 0.2.4 @2025 Mar 02
+
+- fix: null reference errors
+
 ### 0.2.3 @2023 Jun 27
 
  - new: `File::getLineCount` returns number of lines for valid files and `null` for invalid files

@@ -72,7 +72,7 @@ use Inane\Stdlib\{
 class File extends SplFileInfo implements FSOInterface {
 	/**
 	 * File contents cache
-	 * 
+	 *
 	 * @since 0.14.0
 	 *
 	 * @var null|\Inane\Stdlib\Options
@@ -106,7 +106,7 @@ class File extends SplFileInfo implements FSOInterface {
 	 * {@inheritDoc}
 	 * @see \SplFileInfo::getExtension()
 	 */
-	public function getExtension(Capitalisation $case = null): string {
+	public function getExtension(?Capitalisation $case = null): string {
 		$ext = parent::getExtension();
 
 		return match ($case) {
@@ -128,7 +128,7 @@ class File extends SplFileInfo implements FSOInterface {
 
 	/**
 	 * Return number of lines
-	 * 
+	 *
 	 * @since 0.15.0
 	 *
 	 * @return int|null line count or `null` if invalid file
@@ -264,18 +264,18 @@ class File extends SplFileInfo implements FSOInterface {
 
 	/**
 	 * Reads entire file into an array
-	 * 
+	 *
 	 * You can supply an options array to adjust the following options:
 	 *  * ignoreNewLines [bool=false] - Omit newline at the end of each array element
 	 *  * skipEmptyLines [bool=false] - Skip empty lines
-	 * 
+	 *
 	 * Note: Each line in the resulting array will include the line ending, unless $options['ignoreNewLines'] is `true`.
-	 * 
+	 *
 	 * @since 0.14.0
-	 * 
+	 *
 	 * @param bool $fresh read from file even if a cached version in memory
 	 * @param array $options [ 'ignoreNewLines' => false, 'skipEmptyLines' => false ]
-	 * 
+	 *
 	 * @return null|array|\Inane\Stdlib\Options Returns the file in an array. Each element of the array corresponds to a line in the file, with the newline still attached. Upon failure, readAsArray() returns `null`.
 	 */
 	public function readAsArray(bool $fresh = false, array $options = []): null|array|Options {
@@ -321,7 +321,7 @@ class File extends SplFileInfo implements FSOInterface {
 
 	/**
 	 * append $contents to the end of file
-	 * 
+	 *
 	 * A convenience method for appending text to a file.
 	 *
 	 * @since 0.14.0
