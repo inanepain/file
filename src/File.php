@@ -305,6 +305,9 @@ class File extends SplFileInfo implements FSOInterface {
 
 		if (!$this->isValid())
 			$this->getParent()->makePath(recursive: $createPath);
+		if (!$this->isWritable())
+			return false;
+
 		$success = file_put_contents($this->getPathname(), $contents, $flag);
 
 		if ($success !== false) {
