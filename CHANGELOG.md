@@ -8,6 +8,7 @@
 
  - fix   : return type of `File::getChildPath`
  - update: `File::{write/append/prepend` now return `false|int` where int is number of bytes written.
+ - update: `File::{write/append/prepend` contents type updated to `string|array|resource`.
 
 ### 0.2.4 @2025 Mar 02
 
