@@ -297,11 +297,11 @@ class File extends SplFileInfo implements FSOInterface {
 	 *
 	 * @since 0.9.0
 	 *
-	 * @param string|array|resource $contents The data to write. Can be either a string, an array or a stream resource.
+	 * @param mixed $contents The data to write. Can be either a string, an array or a stream resource.
 	 *
 	 * @return bool|int false on failure otherwise number of bytes written.
 	 */
-	public function write(string|array|resource $contents, bool $append = false, bool $createPath = true): bool|int {
+	public function write(mixed $contents, bool $append = false, bool $createPath = true): bool|int {
 		$flag = $append ? FILE_APPEND | LOCK_EX : 0;
 
 		if (!$this->isValid())
@@ -330,11 +330,11 @@ class File extends SplFileInfo implements FSOInterface {
 	 *
 	 * @since 0.14.0
 	 *
-	 * @param string|array|resource $contents The data to append. Can be either a string, an array or a stream resource.
+	 * @param mixed $contents The data to append. Can be either a string, an array or a stream resource.
 	 *
 	 * @return bool|int false on failure otherwise number of bytes written.
 	 */
-	public function append(string|array|resource $contents): bool|int {
+	public function append(mixed $contents): bool|int {
 		return $this->write($contents, true);
 	}
 
@@ -343,11 +343,11 @@ class File extends SplFileInfo implements FSOInterface {
 	 *
 	 * @since 0.10.0
 	 *
-	 * @param string|array|resource $contents The data to prepend. Can be either a string, an array or a stream resource.
+	 * @param mixed $contents The data to prepend. Can be either a string, an array or a stream resource.
 	 *
 	 * @return bool|int false on failure otherwise number of bytes written.
 	 */
-	public function prepend(string|array|resource $contents): bool|int {
+	public function prepend(mixed $contents): bool|int {
 		$contents .= $this->read();
 		return $this->write($contents);
 	}
