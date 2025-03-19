@@ -6,11 +6,12 @@
 
 ### 0.2.5-dev @2025 Mar 19
 
-- fix: return type of `getChildPath`
+ - fix   : return type of `File::getChildPath`
+ - update: `File::{write/append/prepend` now return `false|int` where int is number of bytes written.
 
 ### 0.2.4 @2025 Mar 02
 
-- fix: null reference errors
+ - fix: null reference errors
 
 ### 0.2.3 @2023 Jun 27
 
