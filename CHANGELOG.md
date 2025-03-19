@@ -4,6 +4,10 @@
 
 ## History
 
+### 0.2.5-dev @2025 Mar 19
+
+- fix: return type of `getChildPath`
+
 ### 0.2.4 @2025 Mar 02
 
 - fix: null reference errors

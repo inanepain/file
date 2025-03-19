@@ -8,12 +8,12 @@
     "authors": [
         {
             "name": "Philip Michael Raab",
-            "email": "peep@inane.co.za",
+            "email": "philip@cathedral.co.za",
             "role": "Developer"
         }
     ],
     "support": {
-        "email": "peep@inane.co.za",
+        "email": "philip@cathedral.co.za",
         "issues": "https://vaieen.local:3000/inane/file/issues"
     },
     "keywords": [

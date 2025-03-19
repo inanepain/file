@@ -67,7 +67,7 @@ use Inane\Stdlib\{
  *
  * @package Inane\File
  *
- * @version 0.15.0
+ * @version 0.15.1
  */
 class File extends SplFileInfo implements FSOInterface {
 	/**
@@ -440,13 +440,13 @@ class File extends SplFileInfo implements FSOInterface {
 	}
 
 	/**
-	 * Gets Child Path
-	 *
-	 * If this is a file a child path is returned in the same directory as the file.
+	 * Retrieves the child path of the given path name.
 	 *
 	 * @since 0.12.0
 	 *
-	 * @return string|null
+	 * @param string $pathName The name of the path to retrieve the child path for.
+	 *
+	 * @return Path The child path corresponding to the given path name.
 	 */
 	public function getChildPath(string $pathName): Path {
 		return new Path(static::combinePaths($this->isDir() ? $this->getPathname() : $this->getPath(), $pathName));
