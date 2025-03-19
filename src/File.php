@@ -215,7 +215,7 @@ class File extends SplFileInfo implements FSOInterface {
 	/**
 	 * Get child/sibling file matching $file name
 	 *
-	 * @param string $filePattern file  name or pattern relative to parent (pattern only effective if $onlyIfValid == false)
+	 * @param string $filePattern file name or pattern relative to parent (pattern only effective if $onlyIfValid == false)
 	 * @param bool $onlyIfValid only return file if it exists else null
 	 *
 	 * @return null|\Inane\File\File file or if it must be a valid file and is not null
@@ -306,7 +306,7 @@ class File extends SplFileInfo implements FSOInterface {
 
 		if (!$this->isValid())
 			$this->getParent()->makePath(recursive: $createPath);
-		if (!$this->isWritable())
+		elseif (!$this->isWritable())
 			return false;
 
 		$success = file_put_contents($this->getPathname(), $contents, $flag);
@@ -360,7 +360,7 @@ class File extends SplFileInfo implements FSOInterface {
 	 * @return bool success
 	 */
 	public function move(File|string $dest): bool {
-		if ($this->isValid()  && $this->isWritable()) {
+		if ($this->isValid() && $this->isWritable()) {
 			$target = is_string($dest) ? $dest : $dest->getPathname();
 			return rename($this->getPathname(), $target);
 		}
@@ -376,7 +376,7 @@ class File extends SplFileInfo implements FSOInterface {
 	 * @return bool
 	 */
 	public function remove(): bool {
-		if ($this->isValid()  && $this->isWritable()) unlink($this->getPathname());
+		if ($this->isValid() && $this->isWritable()) unlink($this->getPathname());
 
 		return false;
 	}
