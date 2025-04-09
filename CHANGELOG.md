@@ -10,6 +10,8 @@
  - update: `File::{write/append/prepend` now return `false|int` where int is number of bytes written.
  - update: `File::{write/append/prepend` contents type updated to `mixed`.
  - fix   : `File::write` fix error in testing validaty of writing to file.
+ - update: `File::getFiles` now returns array of `File` and `Path` objects depending on type.
+ - new: `File::getDirectories` returns directories in a path as an array.
 
 ### 0.2.4 @2025 Mar 02
 

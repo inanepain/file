@@ -40,6 +40,7 @@ use function floor;
 use function getcwd;
 use function glob;
 use function in_array;
+use function is_dir;
 use function is_null;
 use function is_string;
 use function ltrim;
@@ -58,6 +59,7 @@ use const DIRECTORY_SEPARATOR;
 use const FILE_APPEND;
 use const FILE_IGNORE_NEW_LINES;
 use const FILE_SKIP_EMPTY_LINES;
+use const GLOB_ONLYDIR;
 use const LOCK_EX;
 use const null;
 
@@ -200,16 +202,31 @@ class File extends SplFileInfo implements FSOInterface {
 	 * GLOB_ONLYDIR  - Return only directory entries which match the pattern
 	 * GLOB_ERR      - Stop on read errors (like unreadable directories), by default errors are ignored.
 	 *
+	 * @since 0.2.5 returns array of `File` and `Path` objects.
+	 *
 	 * @param string $filter
 	 * @param int $flags glob flags
 	 *
-	 * @return Inane\File\File[]|null
+	 * @return \Inane\File\File[]|\Inane\File\Path[]|null
 	 */
 	public function getFiles(string $filter = '*', int $flags = 0): ?array {
 		if ($found = glob($this->getDir() . DIRECTORY_SEPARATOR . $filter, $flags))
-			return array_map(fn ($f): File => new File($f), $found);
+			return array_map(fn ($f): File => is_dir($f) ? new Path($f) : new File($f), $found);
 
 		return null;
+	}
+
+	/**
+	 * Retrieves a list of directories based on the specified filter.
+	 *
+	 * @since 0.2.5
+	 *
+	 * @param string $filter A pattern to filter the directories. Defaults to '*'.
+	 *
+	 * @return \Inane\File\Path[]|null An array of directories matching the specified filter.
+	 */
+	public function getDirectories(string $filter = '*'): ?array {
+		return $this->getFiles($filter, GLOB_ONLYDIR);
 	}
 
 	/**
