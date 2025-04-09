@@ -4,9 +4,18 @@
 
 ## History
 
+### 0.2.5 @2025 Apr 09
+
+ - fix   : return type of `File::getChildPath`
+ - update: `File::{write/append/prepend` now return `false|int` where int is number of bytes written.
+ - update: `File::{write/append/prepend` contents type updated to `mixed`.
+ - fix   : `File::write` fix error in testing validaty of writing to file.
+ - update: `File::getFiles` now returns array of `File` and `Path` objects depending on type.
+ - new: `File::getDirectories` returns directories in a path as an array.
+
 ### 0.2.4 @2025 Mar 02
 
-- fix: null reference errors
+ - fix: null reference errors
 
 ### 0.2.3 @2023 Jun 27
 

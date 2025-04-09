@@ -23,6 +23,10 @@ declare(strict_types=1);
 namespace Inane\File;
 
 use SplFileInfo;
+use Inane\Stdlib\{
+	String\Capitalisation,
+	Options
+};
 
 use function array_map;
 use function array_pop;
@@ -31,10 +35,12 @@ use function count;
 use function file;
 use function file_exists;
 use function file_get_contents;
+use function file_put_contents;
 use function floor;
 use function getcwd;
 use function glob;
 use function in_array;
+use function is_dir;
 use function is_null;
 use function is_string;
 use function ltrim;
@@ -48,17 +54,14 @@ use function strtolower;
 use function strtoupper;
 use function unlink;
 use function unserialize;
+
 use const DIRECTORY_SEPARATOR;
-use const false;
 use const FILE_APPEND;
 use const FILE_IGNORE_NEW_LINES;
 use const FILE_SKIP_EMPTY_LINES;
+use const GLOB_ONLYDIR;
+use const LOCK_EX;
 use const null;
-
-use Inane\Stdlib\{
-	String\Capitalisation,
-	Options
-};
 
 /**
  * File metadata
@@ -199,22 +202,37 @@ class File extends SplFileInfo implements FSOInterface {
 	 * GLOB_ONLYDIR  - Return only directory entries which match the pattern
 	 * GLOB_ERR      - Stop on read errors (like unreadable directories), by default errors are ignored.
 	 *
+	 * @since 0.2.5 returns array of `File` and `Path` objects.
+	 *
 	 * @param string $filter
 	 * @param int $flags glob flags
 	 *
-	 * @return Inane\File\File[]|null
+	 * @return \Inane\File\File[]|\Inane\File\Path[]|null
 	 */
 	public function getFiles(string $filter = '*', int $flags = 0): ?array {
 		if ($found = glob($this->getDir() . DIRECTORY_SEPARATOR . $filter, $flags))
-			return array_map(fn ($f): File => new File($f), $found);
+			return array_map(fn ($f): File => is_dir($f) ? new Path($f) : new File($f), $found);
 
 		return null;
 	}
 
 	/**
+	 * Retrieves a list of directories based on the specified filter.
+	 *
+	 * @since 0.2.5
+	 *
+	 * @param string $filter A pattern to filter the directories. Defaults to '*'.
+	 *
+	 * @return \Inane\File\Path[]|null An array of directories matching the specified filter.
+	 */
+	public function getDirectories(string $filter = '*'): ?array {
+		return $this->getFiles($filter, GLOB_ONLYDIR);
+	}
+
+	/**
 	 * Get child/sibling file matching $file name
 	 *
-	 * @param string $filePattern file  name or pattern relative to parent (pattern only effective if $onlyIfValid == false)
+	 * @param string $filePattern file name or pattern relative to parent (pattern only effective if $onlyIfValid == false)
 	 * @param bool $onlyIfValid only return file if it exists else null
 	 *
 	 * @return null|\Inane\File\File file or if it must be a valid file and is not null
@@ -296,15 +314,18 @@ class File extends SplFileInfo implements FSOInterface {
 	 *
 	 * @since 0.9.0
 	 *
-	 * @param string $contents to write to file
+	 * @param mixed $contents The data to write. Can be either a string, an array or a stream resource.
 	 *
-	 * @return bool success
+	 * @return bool|int false on failure otherwise number of bytes written.
 	 */
-	public function write(string $contents, bool $append = false, bool $createPath = true): bool {
-		$flag = $append ? FILE_APPEND : 0;
+	public function write(mixed $contents, bool $append = false, bool $createPath = true): bool|int {
+		$flag = $append ? FILE_APPEND | LOCK_EX : 0;
 
 		if (!$this->isValid())
 			$this->getParent()->makePath(recursive: $createPath);
+		elseif (!$this->isWritable())
+			return false;
+
 		$success = file_put_contents($this->getPathname(), $contents, $flag);
 
 		if ($success !== false) {
@@ -313,7 +334,7 @@ class File extends SplFileInfo implements FSOInterface {
 
 			$this->contentCache->array = null;
 
-			return true;
+			return $success;
 		}
 
 		return false;
@@ -326,11 +347,11 @@ class File extends SplFileInfo implements FSOInterface {
 	 *
 	 * @since 0.14.0
 	 *
-	 * @param string $contents to append to file
+	 * @param mixed $contents The data to append. Can be either a string, an array or a stream resource.
 	 *
-	 * @return bool success
+	 * @return bool|int false on failure otherwise number of bytes written.
 	 */
-	public function append(string $contents): bool {
+	public function append(mixed $contents): bool|int {
 		return $this->write($contents, true);
 	}
 
@@ -339,11 +360,11 @@ class File extends SplFileInfo implements FSOInterface {
 	 *
 	 * @since 0.10.0
 	 *
-	 * @param string $contents to write to file
+	 * @param mixed $contents The data to prepend. Can be either a string, an array or a stream resource.
 	 *
-	 * @return bool success
+	 * @return bool|int false on failure otherwise number of bytes written.
 	 */
-	public function prepend(string $contents): bool {
+	public function prepend(mixed $contents): bool|int {
 		$contents .= $this->read();
 		return $this->write($contents);
 	}
@@ -356,7 +377,7 @@ class File extends SplFileInfo implements FSOInterface {
 	 * @return bool success
 	 */
 	public function move(File|string $dest): bool {
-		if ($this->isValid()  && $this->isWritable()) {
+		if ($this->isValid() && $this->isWritable()) {
 			$target = is_string($dest) ? $dest : $dest->getPathname();
 			return rename($this->getPathname(), $target);
 		}
@@ -372,7 +393,7 @@ class File extends SplFileInfo implements FSOInterface {
 	 * @return bool
 	 */
 	public function remove(): bool {
-		if ($this->isValid()  && $this->isWritable()) unlink($this->getPathname());
+		if ($this->isValid() && $this->isWritable()) unlink($this->getPathname());
 
 		return false;
 	}
@@ -437,13 +458,13 @@ class File extends SplFileInfo implements FSOInterface {
 	}
 
 	/**
-	 * Gets Child Path
-	 *
-	 * If this is a file a child path is returned in the same directory as the file.
+	 * Retrieves the child path of the given path name.
 	 *
 	 * @since 0.12.0
 	 *
-	 * @return string|null
+	 * @param string $pathName The name of the path to retrieve the child path for.
+	 *
+	 * @return Path The child path corresponding to the given path name.
 	 */
 	public function getChildPath(string $pathName): Path {
 		return new Path(static::combinePaths($this->isDir() ? $this->getPathname() : $this->getPath(), $pathName));
