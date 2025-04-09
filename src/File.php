@@ -70,7 +70,7 @@ use const null;
  *
  * @package Inane\File
  *
- * @version 0.15.1
+ * @version 0.15.0
  */
 class File extends SplFileInfo implements FSOInterface {
 	/**
