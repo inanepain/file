@@ -4,7 +4,7 @@
 
 ## History
 
-### 0.2.5-dev @2025 Mar 19
+### 0.2.5 @2025 Apr 09
 
  - fix   : return type of `File::getChildPath`
  - update: `File::{write/append/prepend` now return `false|int` where int is number of bytes written.
