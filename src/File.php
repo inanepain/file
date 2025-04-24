@@ -70,7 +70,7 @@ use const null;
  *
  * @package Inane\File
  *
- * @version 0.15.0
+ * @version 0.16.0
  */
 class File extends SplFileInfo implements FSOInterface {
 	/**
@@ -242,7 +242,7 @@ class File extends SplFileInfo implements FSOInterface {
 			if ($fs = $this->getFiles($filePattern))
 				return array_pop($fs);
 		} else
-			return new static($this->getDir() . DIRECTORY_SEPARATOR . ltrim($filePattern, DIRECTORY_SEPARATOR));
+			return new File($this->getDir() . DIRECTORY_SEPARATOR . ltrim($filePattern, DIRECTORY_SEPARATOR));
 
 		return null;
 	}
@@ -310,15 +310,19 @@ class File extends SplFileInfo implements FSOInterface {
 	}
 
 	/**
-	 * write $contents to file
+	 * Writes the given contents to the file.
 	 *
 	 * @since 0.9.0
+	 * @since 0.16.0 option to skip caching contents
 	 *
-	 * @param mixed $contents The data to write. Can be either a string, an array or a stream resource.
+	 * @param mixed $contents The data to write to the file. Can be a string, array, or other writable data type.
+	 * @param bool $append Whether to append the contents to the file. If false, the file will be overwritten. Default is false.
+	 * @param bool $createPath Whether to create the directory path if it does not exist. Default is true.
+	 * @param bool $cacheContents Whether to cache the contents after writing. Default is true.
 	 *
-	 * @return bool|int false on failure otherwise number of bytes written.
+	 * @return bool|int Returns the number of bytes written on success, or false on failure.
 	 */
-	public function write(mixed $contents, bool $append = false, bool $createPath = true): bool|int {
+	public function write(mixed $contents, bool $append = false, bool $createPath = true, bool $cacheContents = true): bool|int {
 		$flag = $append ? FILE_APPEND | LOCK_EX : 0;
 
 		if (!$this->isValid())
@@ -329,15 +333,39 @@ class File extends SplFileInfo implements FSOInterface {
 		$success = file_put_contents($this->getPathname(), $contents, $flag);
 
 		if ($success !== false) {
-			if (!$append) $this->contentCache->string = $contents;
-			else $this->contentCache->string = null;
+			if ($cacheContents) {
+				if (!$append) $this->contentCache->string = $contents;
+				else $this->contentCache->string = null;
 
-			$this->contentCache->array = null;
-
+				$this->contentCache->array = null;
+			}
 			return $success;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Clears the cache associated with the file.
+	 *
+	 * @since 0.16.0
+	 *
+	 * @return bool Returns true if the cache was successfully cleared, false otherwise.
+	 */
+	public function clearCache(): bool {
+		$cleared = false;
+
+		if ($this->contentCache->string) {
+			$cleared = true;
+			$this->contentCache->string = null;
+		}
+
+		if ($this->contentCache->array) {
+			$cleared = true;
+			$this->contentCache->array = null;
+		}
+
+		return $cleared;
 	}
 
 	/**

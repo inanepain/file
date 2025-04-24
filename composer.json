@@ -2,7 +2,7 @@
     "name": "inanepain/file",
     "description": "File utilities for local and remote files.",
     "type": "library",
-    "license": "UNLICENSE",
+    "license": "Unlicense",
     "homepage": "https://github.com/inanepain/file",
     "readme": "README.md",
     "authors": [

@@ -4,6 +4,12 @@
 
 ## History
 
+### 0.3.0 @2025 Apr 25
+
+- new   : `File::clearCache` clears content cache
+- update: `File::getFile` returns `File` object
+- update: `File::write` got option to skip caching contents
+
 ### 0.2.5 @2025 Apr 09
 
  - fix   : return type of `File::getChildPath`
