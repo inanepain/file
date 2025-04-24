@@ -4,7 +4,7 @@
 
 ## History
 
-### 0.2.6-dev @2025 Apr xx
+### 0.3.0 @2025 Apr 25
 
 - new   : `File::clearCache` clears content cache
 - update: `File::getFile` returns `File` object
