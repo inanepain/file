@@ -457,10 +457,12 @@ class File extends SplFileInfo implements FSOInterface {
 	}
 
 	/**
-	 * Returns of the path is a file or directory
+	 * Tests if item is a directory
 	 *
 	 * {@inheritDoc}
 	 * @see \SplFileInfo::isDir()
+	 *
+	 * @return bool — true if a directory, false otherwise.
 	 */
 	public function isDir(): bool {
 		if (static::class == Path::class) return true;

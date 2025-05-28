@@ -1,0 +1,30 @@
+= Changelog: File
+:author: Philip Michael Raab
+:email: <philip@cathedral.co.za>
+:revnumber: 0.4.0
+:revdate: 2025-05-25
+:revremark: -dev
+// :version-label: Version
+:copyright: Unlicense
+:keywords: inane, filesystem, file, path, directory, io, read, write
+:experimental:
+:hide-uri-scheme:
+:icons: font
+:source-highlighter: highlight.js
+:sectnums!:
+:toc: auto
+:sectanchors:
+
+Version: $Id$ ($Date$)
+
+== History
+
+include::./release/0.0.0.adoc[leveloffset=+2]
+include::./release/0.3.0.adoc[leveloffset=+2]
+include::./release/0.2.5.adoc[leveloffset=+2]
+include::./release/0.2.4.adoc[leveloffset=+2]
+include::./release/0.2.3.adoc[leveloffset=+2]
+include::./release/0.2.2.adoc[leveloffset=+2]
+include::./release/0.2.1.adoc[leveloffset=+2]
+include::./release/0.2.0.adoc[leveloffset=+2]
+include::./release/0.1.0.adoc[leveloffset=+2]

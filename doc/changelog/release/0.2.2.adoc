@@ -1,0 +1,19 @@
+= 0.2.2 (2023 May 03)
+:author: Philip Michael Raab
+:email: <philip@cathedral.co.za>
+:revnumber: 0.2.2
+:revdate: 2023-05-03
+:copyright: Unlicense
+:keywords: inane, filesystem, file, path, directory, io, read, write
+:experimental:
+:hide-uri-scheme:
+:icons: font
+:source-highlighter: highlight.js
+:sectnums!:
+:toc: auto
+:sectanchors:
+
+* update: `File::makePath` check if path exists before trying to create it
+* new   : `FSOInterface` **File System Object Interface** common root interface for fs items useful for typing
+* new   : `File::append` A convenience method for appending text to a file
+* new   : `File::readAsArray` Reads entire file into an array
