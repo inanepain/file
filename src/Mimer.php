@@ -1,21 +1,23 @@
 <?php
 
 /**
- * Inane
+ * Inane: File
  *
- * File
+ * File utilities for local and remote files.
  *
- * PHP version 8.1
+ * $Id$
+ * $Date$
  *
- * @author Philip Michael Raab<peep@inane.co.za>
- * @package Inane\Stdlib
- * @category filesystem
+ * PHP version 8.4
+ *
+ * @author Philip Michael Raab<philip@cathedral.co.za>
+ * @package inanepain\file
+ * @category file
  *
  * @license UNLICENSE
- * @license https://github.com/inanepain/stdlib/raw/develop/UNLICENSE UNLICENSE
+ * @license https://unlicense.org/UNLICENSE UNLICENSE
  *
- * @version $Id$
- * $Date$
+ * _version_ $version
  */
 
 declare(strict_types=1);
@@ -41,8 +43,7 @@ use const null;
  * Mimer
  *
  * MIME type query tool.
- *
- * @package Inane\File
+ * 
  * @version 0.1.0
  */
 class Mimer {
