@@ -1,6 +1,5 @@
-inanepain:
-A collection of usful utility packages.
-	file:
-	File utilities for local and remote files.
-		- move: move file to new location [name] @new
-		- Trailing directory seperator handling (Yes, No, Off)
+inanepain/file:
+  File utilities for local and remote files.
+	file handling:
+      - move: move file to new location [name] @new
+	  - Trailing directory seperator handling (Yes, No, Off)
