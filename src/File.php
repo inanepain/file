@@ -61,6 +61,7 @@ use const DIRECTORY_SEPARATOR;
 use const FILE_APPEND;
 use const FILE_IGNORE_NEW_LINES;
 use const FILE_SKIP_EMPTY_LINES;
+use const GLOB_BRACE;
 use const GLOB_ONLYDIR;
 use const LOCK_EX;
 use const null;
@@ -226,7 +227,7 @@ class File extends SplFileInfo implements FSOInterface {
 	 * @return \Inane\File\Path[]|null An array of directories matching the specified filter.
 	 */
 	public function getDirectories(string $filter = '*'): ?array {
-		return $this->getFiles($filter, GLOB_ONLYDIR);
+		return $this->getFiles($filter, GLOB_ONLYDIR | GLOB_BRACE);
 	}
 
 	/**

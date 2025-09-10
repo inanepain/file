@@ -6,6 +6,8 @@ Version: $Id$ ($Date$)
 
 - update: `isDir` fixed some phpDoc wording
 
+- update: `getDirectories` added `GLOB_BRACE`
+
 - todo: Add an option for `Path` trailing DIRECTORY\_SEPARATOR: Yes, No,
   Off (off - leave as is)
 

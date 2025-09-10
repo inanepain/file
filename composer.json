@@ -53,10 +53,12 @@
             "touch doc/readme/part/install.adoc"
         ],
         "build": [
+            "echo build: all",
             "@build-changelog",
             "@build-readme"
         ],
         "build-changelog": [
+            "echo building: changelog...",
             "rm -f CHANGELOG.adoc",
             "asciidoctor-reducer -o CHANGELOG.adoc doc/changelog/index.adoc",
             "asciidoctor -b docbook CHANGELOG.adoc",
@@ -65,6 +67,7 @@
             "rm -f CHANGELOG.xml"
         ],
         "build-readme": [
+            "echo building: readme...",
             "rm -f README.adoc",
             "asciidoctor-reducer -o README.adoc doc/readme/index.adoc",
             "asciidoctor -b docbook README.adoc",
