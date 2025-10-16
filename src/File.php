@@ -182,7 +182,7 @@ class File extends SplFileInfo implements FSOInterface {
 	 */
 	protected function humanSize(int $size, int $decimals = 2): string {
 		$sizes = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-		$factor = floor((strlen($size) - 1) / 3);
+		$factor = floor((strlen((string)$size) - 1) / 3);
 		$formattedSize = sprintf("%.{$decimals}f", $size / pow(1024, $factor));
 
 		return rtrim($formattedSize, '0.') . ' ' . @$sizes[$factor];
