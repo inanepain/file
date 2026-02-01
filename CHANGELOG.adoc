@@ -1,8 +1,8 @@
 = Changelog: File
 :author: Philip Michael Raab
 :email: <philip@cathedral.co.za>
-:revnumber: 0.4.0
-:revdate: 2025-05-25
+:revnumber: 0.4.0-dev
+:revdate: 2026-xx-xx
 :revremark: -dev
 // :version-label: Version
 :copyright: Unlicense
@@ -21,43 +21,23 @@ Version: $Id$ ($Date$)
 
 :leveloffset: +2
 
-= 0.4.0-dev (2025 Jun xx)
-:author: Philip Michael Raab
-:email: <philip@cathedral.co.za>
+= 0.4.0-dev (2026 Xxx xx)
 :revnumber: 0.4.0
-:revdate: 2025-06-xx
+:revdate: 2026-xx-xx
 :revremark: -dev
 :copyright: Unlicense
-:keywords: inane, filesystem, file, path, directory, io, read, write
-:experimental:
-:hide-uri-scheme:
-:icons: font
-:source-highlighter: highlight.js
-:sectnums!:
-:toc: auto
-:sectanchors:
 
 * update: `isDir` fixed some phpDoc wording
 * update: `getDirectories` added `GLOB_BRACE`
+* new: `File::copy` copies file to specified destination.
 * todo: Add an option for `Path` trailing DIRECTORY_SEPARATOR: Yes, No, Off (off - leave as is)
 
 :leveloffset!:
 :leveloffset: +2
 
 = 0.3.0 (2025 Apr 25)
-:author: Philip Michael Raab
-:email: <philip@cathedral.co.za>
 :revnumber: 0.3.0
 :revdate: 2025-04-25
-:copyright: Unlicense
-:keywords: inane, filesystem, file, path, directory, io, read, write
-:experimental:
-:hide-uri-scheme:
-:icons: font
-:source-highlighter: highlight.js
-:sectnums!:
-:toc: auto
-:sectanchors:
 
 * new   : `File::clearCache` clears content cache
 * update: `File::getFile` returns `File` object
@@ -67,19 +47,8 @@ Version: $Id$ ($Date$)
 :leveloffset: +2
 
 = 0.2.5 (2025 Apr 09)
-:author: Philip Michael Raab
-:email: <philip@cathedral.co.za>
 :revnumber: 0.2.5
 :revdate: 2025-04-09
-:copyright: Unlicense
-:keywords: inane, filesystem, file, path, directory, io, read, write
-:experimental:
-:hide-uri-scheme:
-:icons: font
-:source-highlighter: highlight.js
-:sectnums!:
-:toc: auto
-:sectanchors:
 
 * fix   : return type of `File::getChildPath`
 * update: `File::{write/append/prepend` now return `false|int` where int is number of bytes written.
@@ -92,19 +61,8 @@ Version: $Id$ ($Date$)
 :leveloffset: +2
 
 = 0.2.4 (2025 Mar 02)
-:author: Philip Michael Raab
-:email: <philip@cathedral.co.za>
-:revnumber: 0.2.4
 :revdate: 2025-03-02
 :copyright: Unlicense
-:keywords: inane, filesystem, file, path, directory, io, read, write
-:experimental:
-:hide-uri-scheme:
-:icons: font
-:source-highlighter: highlight.js
-:sectnums!:
-:toc: auto
-:sectanchors:
 
 * fix: null reference errors
 
@@ -112,19 +70,8 @@ Version: $Id$ ($Date$)
 :leveloffset: +2
 
 = 0.2.3 (2023 Jun 27)
-:author: Philip Michael Raab
-:email: <philip@cathedral.co.za>
-:revnumber: 0.2.3
 :revdate: 2023-06-27
 :copyright: Unlicense
-:keywords: inane, filesystem, file, path, directory, io, read, write
-:experimental:
-:hide-uri-scheme:
-:icons: font
-:source-highlighter: highlight.js
-:sectnums!:
-:toc: auto
-:sectanchors:
 
 * new: `File::getLineCount` returns number of lines for valid files and `null` for invalid files
 * fix: `File::readAsArray` options array default value
@@ -134,19 +81,8 @@ Version: $Id$ ($Date$)
 :leveloffset: +2
 
 = 0.2.2 (2023 May 03)
-:author: Philip Michael Raab
-:email: <philip@cathedral.co.za>
 :revnumber: 0.2.2
 :revdate: 2023-05-03
-:copyright: Unlicense
-:keywords: inane, filesystem, file, path, directory, io, read, write
-:experimental:
-:hide-uri-scheme:
-:icons: font
-:source-highlighter: highlight.js
-:sectnums!:
-:toc: auto
-:sectanchors:
 
 * update: `File::makePath` check if path exists before trying to create it
 * new   : `FSOInterface` **File System Object Interface** common root interface for fs items useful for typing
@@ -157,19 +93,8 @@ Version: $Id$ ($Date$)
 :leveloffset: +2
 
 = 0.2.1 (2023 Feb 02)
-:author: Philip Michael Raab
-:email: <philip@cathedral.co.za>
 :revnumber: 0.2.1
 :revdate: 2023-02-02
-:copyright: Unlicense
-:keywords: inane, filesystem, file, path, directory, io, read, write
-:experimental:
-:hide-uri-scheme:
-:icons: font
-:source-highlighter: highlight.js
-:sectnums!:
-:toc: auto
-:sectanchors:
 
 * new   : `Path::makePath` create directory
 * new   : `File::getParent` gets parent directory
@@ -186,19 +111,8 @@ Version: $Id$ ($Date$)
 :leveloffset: +2
 
 = 0.2.0 (2022 Oct 18)
-:author: Philip Michael Raab
-:email: <philip@cathedral.co.za>
 :revnumber: 0.2.0
 :revdate: 2022-08-18
-:copyright: Unlicense
-:keywords: inane, filesystem, file, path, directory, io, read, write
-:experimental:
-:hide-uri-scheme:
-:icons: font
-:source-highlighter: highlight.js
-:sectnums!:
-:toc: auto
-:sectanchors:
 
 * rename: `FileInfo` to `File`
 * new   : `File` => `getDir` > returns directory, file's return parent directory
@@ -213,19 +127,8 @@ Version: $Id$ ($Date$)
 :leveloffset: +2
 
 = 0.1.0 (2022 Aug 04)
-:author: Philip Michael Raab
-:email: <philip@cathedral.co.za>
 :revnumber: 0.1.0
 :revdate: 2022-08-04
-:copyright: Unlicense
-:keywords: inane, filesystem, file, path, directory, io, read, write
-:experimental:
-:hide-uri-scheme:
-:icons: font
-:source-highlighter: highlight.js
-:sectnums!:
-:toc: auto
-:sectanchors:
 
 * initial
 

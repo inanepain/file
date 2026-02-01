@@ -1,16 +1,5 @@
 = 0.2.4 (2025 Mar 02)
-:author: Philip Michael Raab
-:email: <philip@cathedral.co.za>
-:revnumber: 0.2.4
 :revdate: 2025-03-02
 :copyright: Unlicense
-:keywords: inane, filesystem, file, path, directory, io, read, write
-:experimental:
-:hide-uri-scheme:
-:icons: font
-:source-highlighter: highlight.js
-:sectnums!:
-:toc: auto
-:sectanchors:
 
 * fix: null reference errors

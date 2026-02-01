@@ -1,17 +1,6 @@
 = 0.2.5 (2025 Apr 09)
-:author: Philip Michael Raab
-:email: <philip@cathedral.co.za>
 :revnumber: 0.2.5
 :revdate: 2025-04-09
-:copyright: Unlicense
-:keywords: inane, filesystem, file, path, directory, io, read, write
-:experimental:
-:hide-uri-scheme:
-:icons: font
-:source-highlighter: highlight.js
-:sectnums!:
-:toc: auto
-:sectanchors:
 
 * fix   : return type of `File::getChildPath`
 * update: `File::{write/append/prepend` now return `false|int` where int is number of bytes written.

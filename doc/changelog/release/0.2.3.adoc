@@ -1,17 +1,6 @@
 = 0.2.3 (2023 Jun 27)
-:author: Philip Michael Raab
-:email: <philip@cathedral.co.za>
-:revnumber: 0.2.3
 :revdate: 2023-06-27
 :copyright: Unlicense
-:keywords: inane, filesystem, file, path, directory, io, read, write
-:experimental:
-:hide-uri-scheme:
-:icons: font
-:source-highlighter: highlight.js
-:sectnums!:
-:toc: auto
-:sectanchors:
 
 * new: `File::getLineCount` returns number of lines for valid files and `null` for invalid files
 * fix: `File::readAsArray` options array default value

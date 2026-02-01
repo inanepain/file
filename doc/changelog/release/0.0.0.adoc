@@ -1,19 +1,10 @@
-= 0.4.0-dev (2025 Jun xx)
-:author: Philip Michael Raab
-:email: <philip@cathedral.co.za>
+= 0.4.0-dev (2026 Xxx xx)
 :revnumber: 0.4.0
-:revdate: 2025-06-xx
+:revdate: 2026-xx-xx
 :revremark: -dev
 :copyright: Unlicense
-:keywords: inane, filesystem, file, path, directory, io, read, write
-:experimental:
-:hide-uri-scheme:
-:icons: font
-:source-highlighter: highlight.js
-:sectnums!:
-:toc: auto
-:sectanchors:
 
 * update: `isDir` fixed some phpDoc wording
 * update: `getDirectories` added `GLOB_BRACE`
+* new: `File::copy` copies file to specified destination.
 * todo: Add an option for `Path` trailing DIRECTORY_SEPARATOR: Yes, No, Off (off - leave as is)
