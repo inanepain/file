@@ -1,0 +1,21 @@
+= Usage
+
+[source,php]
+----
+use Inane\File\File;
+
+$file = new File('example.txt');
+
+// Write content
+$file->write('Hello World');
+
+// Append content
+$file->append(' - Appended text');
+
+// Read content
+echo $file->read(); // Hello World - Appended text
+
+// Get file info
+echo $file->getMimetype(); // text/plain
+echo $file->getHumanSize(); // 27 B
+----

@@ -1,0 +1,34 @@
+= inanepain/file image:./icon.png[title=inanepain/file,25]
+:author: Philip Michael Raab
+:email: <philip@cathedral.co.za>
+:description: File utilities for local and remote files.
+:keywords: inane, filesystem, file, path, directory, io, read, write
+:homepage: https://github.com/inanepain/file
+:copyright: Unlicense
+:revnumber: 0.3.0
+:revdate: 2025-04-25
+:experimental:
+:hide-uri-scheme:
+:icons: font
+:source-highlighter: highlight.js
+:toc: left
+:sectanchors:
+:idprefix: topic-
+:idseparator: -
+:pkg-vendor: inanepain
+:pkg-name: file
+:pkg-id: {pkg-vendor}/{pkg-name}
+
+== image:./icon.png[title={pkg-id},25] {pkg-id}
+
+{description}
+
+:sectnums:
+
+<<<
+
+include::part/install.adoc[leveloffset=+1]
+
+<<<
+
+include::part/usage.adoc[leveloffset=+1]
