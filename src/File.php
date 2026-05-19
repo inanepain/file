@@ -8,7 +8,7 @@
  * $Id$
  * $Date$
  *
- * PHP version 8.4
+ * PHP version 8.5
  *
  * @author Philip Michael Raab<philip@cathedral.co.za>
  * @package inanepain\file
@@ -28,6 +28,7 @@ use Inane\Stdlib\{
     Options,
     String\Capitalisation};
 use SplFileInfo;
+
 use function array_map;
 use function array_pop;
 use function base64_encode;
@@ -57,6 +58,7 @@ use function strtolower;
 use function strtoupper;
 use function unlink;
 use function unserialize;
+
 use const DIRECTORY_SEPARATOR;
 use const FILE_APPEND;
 use const FILE_IGNORE_NEW_LINES;

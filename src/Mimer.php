@@ -8,7 +8,7 @@
  * $Id$
  * $Date$
  *
- * PHP version 8.4
+ * PHP version 8.5
  *
  * @author Philip Michael Raab<philip@cathedral.co.za>
  * @package inanepain\file
@@ -35,6 +35,7 @@ use function preg_match_all;
 use function sort;
 use function str_starts_with;
 use function trim;
+
 use const false;
 use const FILE_IGNORE_NEW_LINES;
 use const null;
@@ -43,7 +44,7 @@ use const null;
  * Mimer
  *
  * MIME type query tool.
- * 
+ *
  * @version 0.1.0
  */
 class Mimer {
