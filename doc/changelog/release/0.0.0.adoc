@@ -6,5 +6,6 @@
 
 * update: `isDir` fixed some phpDoc wording
 * update: `getDirectories` added `GLOB_BRACE`
-* new: `File::copy` copies file to specified destination.
-* todo: Add an option for `Path` trailing DIRECTORY_SEPARATOR: Yes, No, Off (off - leave as is)
+* new: `File::copy` copies a file to specified destination.
+* todo: Add an option for `Path` trailing DIRECTORY_SEPARATOR: Yes, No, Off(off - leave as is)
+* new: Created PHPUnit tests.
