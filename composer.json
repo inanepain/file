@@ -31,6 +31,11 @@
             "Inane\\File\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Inane\\File\\Tests\\": "tests/"
+        }
+    },
     "config": {
         "preferred-install": "dist",
         "optimize-autoloader": true,
