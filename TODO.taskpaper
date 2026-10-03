@@ -1,5 +1,6 @@
 inanepain/file:
-  File utilities for local and remote files.
+	File utilities for local and remote files.
+	- git-attributes
 	file handling:
-      - move: move file to new location [name] @new
-	  - Trailing directory seperator handling (Yes, No, Off)
+			- move: move file to new location [name] @new
+	- Trailing directory seperator handling (Yes, No, Off)
